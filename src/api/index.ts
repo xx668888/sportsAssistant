@@ -1,22 +1,24 @@
-import { User } from '@/api/types/sports';
-import request from '@/util/request/index'
+import { request } from '@/util/request/index';
 
-export const mi = () => {
-    return request<User>({
+export const mi = (data) => {
+    return request({
         url: '/v1/sport/submit/mi',
-        method: 'post'
+        method: 'post',
+        data
     })
 }
 
-export const xin = () => {
-    return request<User>({
+export const xin = (data) => {
+    return request({
         url: '/v1/sport/submit/xin',
-        method: 'post'
+        method: 'post',
+        data
     })
 }
-export const ydq = () => {
-    return request<User>({
+export const ydq = (data) => {
+    return request({
         url: '/v1/sport/submit/yqd',
-        method: 'post'
+        method: 'post',
+        data
     })
 }

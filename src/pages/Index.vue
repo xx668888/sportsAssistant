@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { ref } from 'vue';
+import {useI18n} from 'vue-i18n';
+import {ref} from 'vue';
 import xForm from '@/components/form/index.vue';
-import { mi,xin,ydq } from '@/api/index';
+import {mi, xin, ydq} from '@/api/index';
 import {ElMessage} from "element-plus";
-const { t, availableLocales, locale } = useI18n();
-const isAlert = ref(false);
 
-setTimeout(() => {
-  isAlert.value = true;
-}, 1000);
+const {t, availableLocales, locale} = useI18n();
+const isAlert = ref(true);
 
 // 切换国际化事件
 const toggleLocales = () => {
@@ -18,37 +15,27 @@ const toggleLocales = () => {
 };
 
 const submitForm = async (form: any) => {
-  console.log(form, '~~');
-  let type = form.type;
-  if(type==1){
-    await mi().then(res => {
-      if(res.code!=0){
-        ElMessage.error(res.msg)
-      }else {
-        ElMessage.success(res.msg)
-      }
-    });
-    return;
+  const type = form.type;
+  const fd = new FormData();
+  fd.append('mobile', form.mobile);
+  fd.append('password', form.password);
+  fd.append('step', form.step);
+
+  let res: null = null;
+  if (type === 1) {
+    res = await mi(fd);
   }
-  if(type==2){
-    await xin().then(res => {
-      if(res.code!=0){
-        ElMessage.error(res.msg)
-      }else {
-        ElMessage.success(res.msg)
-      }
-    });
-    return;
+  if (type === 2) {
+    res = await xin(fd);
   }
-  if(type==2){
-    await ydq().then(res => {
-      if(res.code!=0){
-        ElMessage.error(res.msg)
-      }else {
-        ElMessage.success(res.msg)
-      }
-    });
-    return;
+  if (type === 3) {
+    fd.append('qqUrl', form.mobile);
+    res = await ydq(fd);
+  }
+  if (res.code != 0) {
+    ElMessage.error(res.msg)
+  } else {
+    ElMessage.success(res.msg)
   }
 };
 </script>
@@ -56,7 +43,7 @@ const submitForm = async (form: any) => {
 <template>
   <main class="px-5 py-5 s-14 text-sm">
     <section
-      class="
+        class="
         mx-auto
         bg-white
         lg:w-[800px]
@@ -67,25 +54,25 @@ const submitForm = async (form: any) => {
       "
     >
       <header
-        @click="toggleLocales"
-        class="h-[100px] flex items-center justify-center relative"
+          @click="toggleLocales"
+          class="h-[100px] flex items-center justify-center relative"
       >
         <div
-          class="absolute inset-0 z-0 sports-bg bg-center bg-no-repeat bg-cover"
+            class="absolute inset-0 z-0 sports-bg bg-center bg-no-repeat bg-cover"
         ></div>
         <div
-          class="absolute inset-0 z-10 sports-box bg-gray-500 bg-opacity-5"
+            class="absolute inset-0 z-10 sports-box bg-gray-500 bg-opacity-5"
         ></div>
         <div class="z-20">
           <div class="text-2xl sports-text">
             <!-- {{ t('hello') }} 国际化使用方式 -->
-<!--            <span class="font-bold ml-2">🏃 {{ t('hello') }}</span>-->
+            <!--            <span class="font-bold ml-2">🏃 {{ t('hello') }}</span>-->
             <span class="font-bold ml-2">🏃 运动助手</span>
           </div>
         </div>
       </header>
       <nav
-        class="
+          class="
           bg-gray-200
           h-9
           text-center
@@ -108,30 +95,30 @@ const submitForm = async (form: any) => {
 
         <div class="flex flex-wrap text-white">
           <a
-            class="px-3 py-1 bg-orange-300 rounded mr-3 mb-3"
-            href="https://jq.qq.com/?_wv=1027&k=fJJNtknG"
-            target="_blank"
-            >加入群聊</a
+              class="px-3 py-1 bg-orange-300 rounded mr-3 mb-3"
+              href="https://jq.qq.com/?_wv=1027&k=fJJNtknG"
+              target="_blank"
+          >加入群聊</a
           >
           <a
-            class="px-3 py-1 bg-red-300 rounded mr-3 mb-3"
-            href="http://doc.5173kk.com"
-            target="_blank"
-            >使用教程</a
+              class="px-3 py-1 bg-red-300 rounded mr-3 mb-3"
+              href="http://doc.5173kk.com"
+              target="_blank"
+          >使用教程</a
           >
           <a class="px-3 py-1 bg-blue-300 rounded mr-3 mb-3"
-            href="http://sport.520e.com.cn"
+             href="http://sport.520e.com.cn"
              target="_blank"
-            >自动版本</a >
+          >自动版本</a>
           <a class="px-3 py-1 bg-blue-300 rounded mb-3"
              href="https://gitee.com/xx668888/sportsAssistant"
              target="_blank"
-          >免费搭建</a >
+          >免费搭建</a>
         </div>
 
         <div class="sports-line flex my-6 mt-2 mb-5">
           <span
-            class="
+              class="
               sports-line--text
               text-black-300
               font-medium
@@ -140,7 +127,7 @@ const submitForm = async (form: any) => {
               flex
               justify-center
             "
-            >请选择接口</span
+          >请选择接口</span
           >
         </div>
       </article>
@@ -150,7 +137,7 @@ const submitForm = async (form: any) => {
       </article>
 
       <footer
-        class="
+          class="
           w-11/12
           flex flex-col
           text-gray-600
@@ -167,8 +154,8 @@ const submitForm = async (form: any) => {
             class="hover:text-purple-700"
             href="http://yz.ovq.cc"
             target="_blank"
-            >QQ代挂</a
-          >
+        >QQ代挂</a
+        >
         </p>
       </footer>
     </section>

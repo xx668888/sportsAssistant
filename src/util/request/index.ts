@@ -1,28 +1,39 @@
-import axios, { AxiosRequestConfig } from 'axios'
-import { MyResponseType } from './types'
+import axios from 'axios';
+const baseURL = 'http://127.0.0.1:81';
 
-const instance = axios.create({
-    baseURL: 'http://localhost:81',
+/**
+ * 创建axios实例
+ */
+const axiosInstance = axios.create({
+    baseURL,
+    timeout: 15000,
     headers: {
         'Content-Type': 'multipart/form-data'
-    }
-})
+    },
+});
 
-const request = async <T = any>(config: AxiosRequestConfig): Promise<MyResponseType<T>> => {
-    try {
-        const { data } = await instance.request<MyResponseType<T>>(config)
-        // data.code === 0 ? console.log("%cred", "color: blue;", data.msg) // 成功消息提示
-        //     : console.error("%cred", "color: red;", data.msg) // 失败消息提示
-        return data
-    } catch (err: any) {
-        const message = err.message || '请求失败'
-        // console.error("%cred", "color: red;", message) // 失败消息提示
-        return {
-            code: -1,
-            message,
-            data: null as any
-        }
-    }
-}
+/**
+ * 请求拦截
+ */
+axiosInstance.interceptors.request.use(
+    function (config) {
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
+    },
+);
 
-export default request;
+/**
+ * 响应拦截
+ */
+axiosInstance.interceptors.response.use(
+    function (response) {
+        return response.data;
+    },
+    function (error) {
+        return Promise.reject(error);
+    },
+);
+
+export const request = axiosInstance.request;
