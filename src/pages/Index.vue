@@ -4,14 +4,13 @@ import { ref } from 'vue';
 import xForm from '@/components/form/index.vue';
 import { mi,xin,ydq } from '@/api/index';
 import {ElMessage} from "element-plus";
-const { t, availableLocales, locale } = useI18n();
-const isAlert = ref(true);
+// const { t, availableLocales, locale } = useI18n();
 
 // 切换国际化事件
-const toggleLocales = () => {
-  const locales = availableLocales;
-  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length];
-};
+// const toggleLocales = () => {
+  // const locales = availableLocales;
+  // locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length];
+// };
 
 const submitForm = async (form: any) => {
   const type = form.type;
@@ -20,14 +19,14 @@ const submitForm = async (form: any) => {
   fd.append('password', form.password);
   fd.append('step', form.step);
 
-  let res: null = null;
-  if(type===1){
+  let res: any = null;
+  if(type === 1){
     res = await mi(fd);
   }
-  if(type===2){
+  if(type === 2){
     res = await xin(fd);
   }
-  if(type===3){
+  if(type === 3){
     res = await ydq(fd);
   }
 
