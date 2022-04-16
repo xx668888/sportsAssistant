@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseURL = 'http://127.0.0.1:81';
+const baseURL = 'http://mp.5173kk.com';
 
 /**
  * 创建axios实例
