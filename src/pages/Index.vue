@@ -5,7 +5,14 @@ import xForm from '@/components/form/index.vue';
 import { mi, xin, ydq } from '@/api/index';
 import { ElMessage } from 'element-plus';
 
-const {t, availableLocales, locale} = useI18n();
+const {availableLocales, locale} = useI18n();
+
+interface formType {
+  type: number,
+  mobile: string,
+  password: string,
+  step: string
+}
 
 // 切换国际化事件
 const toggleLocales = () => {
@@ -13,7 +20,7 @@ const locales = availableLocales;
 locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length];
 };
 
-const submitForm = async (form: any) => {
+const submitForm = async (form: formType): Promise<any> => {
   const type = form.type;
   const fd = new FormData();
   fd.append('mobile', form.mobile);

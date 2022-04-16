@@ -36,14 +36,12 @@ export default defineConfig({
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
-    Components({
-      resolvers: [ElementPlusResolver()],
-    }),
     vue(),
     // https://github.com/jpkleemans/vite-svg-loader
     svgLoader(),
     // https://github.com/antfu/vite-plugin-components
     Components({
+      resolvers: [ElementPlusResolver()],
       extensions: ['vue'],
       dts: 'src/components.d.ts',
     }),

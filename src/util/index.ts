@@ -3,7 +3,7 @@ interface setting {
 }
 
 const Setting: setting = {
-    baseUrl: ''
+    baseUrl: 'http://weixin-api.echgsss.cn:81'
 };
 
 export default Setting;

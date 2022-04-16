@@ -144,7 +144,7 @@ const resetForm = async (form: FormInstance | undefined) => {
     </div>
   </div>
 
-  <div class="px-4 py-5">
+  <div class="pr-4 py-5">
     <el-form
       ref="ruleFormRef"
       class="w-full"

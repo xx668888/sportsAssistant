@@ -1,11 +1,12 @@
 import axios from 'axios';
-const baseURL = 'http://mp.5173kk.com';
+import Setting from '@/util/index';
+import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 /**
  * 创建axios实例
  */
 const axiosInstance = axios.create({
-    baseURL,
+    baseURL: Setting.baseUrl,
     timeout: 15000,
     headers: {
         'Content-Type': 'multipart/form-data'
@@ -16,10 +17,10 @@ const axiosInstance = axios.create({
  * 请求拦截
  */
 axiosInstance.interceptors.request.use(
-    function (config) {
+    (config: AxiosRequestConfig) => {
         return config;
     },
-    function (error) {
+    (error: AxiosError) => {
         return Promise.reject(error);
     },
 );
@@ -28,10 +29,10 @@ axiosInstance.interceptors.request.use(
  * 响应拦截
  */
 axiosInstance.interceptors.response.use(
-    function (response) {
+    (response: AxiosResponse) => {
         return response.data;
     },
-    function (error) {
+    (error: AxiosError) => {
         return Promise.reject(error);
     },
 );
