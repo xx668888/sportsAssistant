@@ -5,11 +5,7 @@ import xForm from '@/components/form/index.vue';
 import { mi,xin,ydq } from '@/api/index';
 import {ElMessage} from "element-plus";
 const { t, availableLocales, locale } = useI18n();
-const isAlert = ref(false);
-
-setTimeout(() => {
-  isAlert.value = true;
-}, 1000);
+const isAlert = ref(true);
 
 // 切换国际化事件
 const toggleLocales = () => {
@@ -18,37 +14,27 @@ const toggleLocales = () => {
 };
 
 const submitForm = async (form: any) => {
-  console.log(form, '~~');
-  let type = form.type;
-  if(type==1){
-    await mi().then(res => {
-      if(res.code!=0){
-        ElMessage.error(res.msg)
-      }else {
-        ElMessage.success(res.msg)
-      }
-    });
-    return;
+  const type = form.type;
+  const fd = new FormData();
+  fd.append('mobile', form.mobile);
+  fd.append('password', form.password);
+  fd.append('step', form.step);
+
+  let res: null = null;
+  if(type===1){
+    res = await mi(fd);
   }
-  if(type==2){
-    await xin().then(res => {
-      if(res.code!=0){
-        ElMessage.error(res.msg)
-      }else {
-        ElMessage.success(res.msg)
-      }
-    });
-    return;
+  if(type===2){
+    res = await xin(fd);
   }
-  if(type==2){
-    await ydq().then(res => {
-      if(res.code!=0){
-        ElMessage.error(res.msg)
-      }else {
-        ElMessage.success(res.msg)
-      }
-    });
-    return;
+  if(type===3){
+    res = await ydq(fd);
+  }
+
+  if(res.code!=0){
+      ElMessage.error(res.msg)
+  }else {
+      ElMessage.success(res.msg)
   }
 };
 </script>
