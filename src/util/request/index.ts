@@ -2,7 +2,10 @@ import axios, { AxiosRequestConfig } from 'axios'
 import { MyResponseType } from './types'
 
 const instance = axios.create({
-    baseURL: '/api'
+    baseURL: 'http://localhost:81',
+    headers: {
+        'Content-Type': 'multipart/form-data'
+    }
 })
 
 const request = async <T = any>(config: AxiosRequestConfig): Promise<MyResponseType<T>> => {
