@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n';
 // import { ref } from 'vue';
 import xForm from '@/components/form/index.vue';
 import { mi, xin, ydq } from '@/api/index';
