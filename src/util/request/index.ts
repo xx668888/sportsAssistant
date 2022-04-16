@@ -7,6 +7,9 @@ const baseURL = 'http://weixin-api.echgsss.cn:81';
 const axiosInstance = axios.create({
     baseURL,
     timeout: 15000,
+    headers: {
+        'Content-Type': 'multipart/form-data'
+    },
 });
 
 /**
@@ -14,7 +17,6 @@ const axiosInstance = axios.create({
  */
 axiosInstance.interceptors.request.use(
     function (config) {
-        console.log(config, '参数');
         return config;
     },
     function (error) {
