@@ -137,7 +137,7 @@ const resetForm = async (form: FormInstance | undefined) => {
       v-for="(item, index) of tabs"
       :key="item.current"
       @click="switchTabs(index)"
-      :class="`sports-tabs flex rounded ${item.active ? 'active' : ''} relative overflow-hidden flex-1 justify-center items-center mr-2`"
+      :class="`sports-tabs flex rounded ${item.active ? 'active' : ''} cursor-pointer relative overflow-hidden flex-1 justify-center items-center mr-2`"
     >
       <img :src="item.img" class="lg:h-6 mr-2 h-5" alt="" />
       {{ item.name }}
