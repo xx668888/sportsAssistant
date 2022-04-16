@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import {useI18n} from 'vue-i18n';
-import {ref} from 'vue';
+import { useI18n } from 'vue-i18n';
+// import { ref } from 'vue';
 import xForm from '@/components/form/index.vue';
-import {mi, xin, ydq} from '@/api/index';
-import {ElMessage} from "element-plus";
+import { mi, xin, ydq } from '@/api/index';
+import { ElMessage } from 'element-plus';
 
 const {t, availableLocales, locale} = useI18n();
-const isAlert = ref(true);
 
 // 切换国际化事件
 const toggleLocales = () => {
-  const locales = availableLocales;
-  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length];
+const locales = availableLocales;
+locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length];
 };
 
 const submitForm = async (form: any) => {
@@ -21,7 +20,7 @@ const submitForm = async (form: any) => {
   fd.append('password', form.password);
   fd.append('step', form.step);
 
-  let res: null = null;
+  let res: any = null;
   if (type === 1) {
     res = await mi(fd);
   }
@@ -29,13 +28,13 @@ const submitForm = async (form: any) => {
     res = await xin(fd);
   }
   if (type === 3) {
-    fd.append('qqUrl', form.mobile);
     res = await ydq(fd);
   }
+
   if (res.code != 0) {
-    ElMessage.error(res.msg)
+    ElMessage.error(res.msg);
   } else {
-    ElMessage.success(res.msg)
+    ElMessage.success(res.msg);
   }
 };
 </script>
@@ -66,7 +65,7 @@ const submitForm = async (form: any) => {
         <div class="z-20">
           <div class="text-2xl sports-text">
             <!-- {{ t('hello') }} 国际化使用方式 -->
-            <!--            <span class="font-bold ml-2">🏃 {{ t('hello') }}</span>-->
+            <!-- <span class="font-bold ml-2">🏃 {{ t('hello') }}</span>-->
             <span class="font-bold ml-2">🏃 运动助手</span>
           </div>
         </div>
@@ -106,14 +105,18 @@ const submitForm = async (form: any) => {
               target="_blank"
           >使用教程</a
           >
-          <a class="px-3 py-1 bg-blue-300 rounded mr-3 mb-3"
+          <a
+            class="px-3 py-1 bg-blue-300 rounded mr-3 mb-3"
              href="http://sport.520e.com.cn"
-             target="_blank"
-          >自动版本</a>
-          <a class="px-3 py-1 bg-blue-300 rounded mb-3"
-             href="https://gitee.com/xx668888/sportsAssistant"
-             target="_blank"
-          >免费搭建</a>
+            target="_blank"
+            >自动版本</a
+          >
+          <a
+            class="px-3 py-1 bg-blue-300 rounded mb-3"
+            href="https://gitee.com/xx668888/sportsAssistant"
+            target="_blank"
+            >免费搭建</a
+          >
         </div>
 
         <div class="sports-line flex my-6 mt-2 mb-5">
