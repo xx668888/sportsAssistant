@@ -19,11 +19,11 @@ vue3.0
 
 创建网站
 
-![img.png](img.png)
+![img.png](doc/img.png)
 
 上传文件到这个目录
 
-![img_1.png](img_1.png)
+![img_1.png](doc/img_1.png)
 
 然后访问域名即可
 
