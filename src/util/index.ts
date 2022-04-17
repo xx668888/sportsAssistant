@@ -3,7 +3,7 @@ interface setting {
 }
 
 const Setting: setting = {
-    baseUrl: 'http://weixin-api.echgsss.cn:81'
+    baseUrl: 'https://mp.5173kk.com'
 };
 
 export default Setting;
