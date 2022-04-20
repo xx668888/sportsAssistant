@@ -1,6 +1,6 @@
 ## 运动助手卡密免费送
 
-网站：http://www.sport.5173kk.com
+网站：http://sport.520e.com.cn
 
 优势：释放双手，每天自动296能量
 
