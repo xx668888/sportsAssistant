@@ -12,9 +12,13 @@ nginx
 
 vue3.0
 
-打包好的文件在dist文件里面，可直接部署即可
 
 #### 安装教程
+
+下载打包好的文件
+
+https://gitee.com/xx668888/sportsAssistant/releases
+
 安装宝塔
 
 安装nginx
