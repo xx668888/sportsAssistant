@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+</head>
+
+<body style="text-align: center;width: 80%">
+<div>使用网抑云APP扫码</div><br>
+<button onclick="login()">点击扫码</button><br>
+  <img id="qrImg" />
+  <div><span id="status"></span></div><br>
+  <div id="clea">
+    <div id="info" class="info"></div><br>
+    <div id="nickName" class="info"></div><br>
+    <button class="btn" data-clipboard-action="copy" data-clipboard-target="#info" id="copy_btn">点击复制CK</button>
+    <br><br><button onclick="clearCk()">清除缓存</button><br>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.26.1/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-base64@1.0.0/jquery.base64.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+  <script>
+    let host = "https://mp.5173kk.com";
+    async function checkStatus(key) {
+      const res = await axios({
+        method: 'post',
+        url: host+`/v1/other/music/qrCheck?uniKey=${key}&timerstamp=${Date.now()}`,
+      })
+      return res.data.data
+    }
+    async function getLoginStatus(cookie = '') {
+      const res = await axios({
+        url: host+`/v1/other/music/checkCookie?cookie=`+cookie+`&timerstamp=${Date.now()}`,
+        method: 'post',
+      })
+      if(res.data.code==0){
+        cookie = $.base64.decode(cookie)
+        document.querySelector('#info').innerText = cookie;
+        document.querySelector('#nickName').innerText = "昵称："+res.data.msg;
+      }
+
+    }
+    function clearCk(){
+      localStorage.removeItem('cookie')
+      alert("清除成功");
+    }
+    async function login() {
+      let timer
+      const cookie = localStorage.getItem('cookie')
+      await this.getLoginStatus(cookie)
+      const res = await axios({
+        method: 'post',
+        url: host+`/v1/other/music/qrUnikey?timerstamp=${Date.now()}`,
+      })
+      const key = res.data.msg
+      const res2 = await axios({
+        method: 'post',
+        url: host+`/v1/other/music/qrCreate?uniKey=${key}&timerstamp=${Date.now()}`,
+      })
+      $("#clea").hide()
+      document.querySelector('#qrImg').src = res2.data.msg
+      document.querySelector('#status').innerText = "状态：等待扫码"
+      timer = setInterval(async () => {
+        const statusRes = await this.checkStatus(key)
+        if (statusRes.code === 800) {
+          // alert('二维码已过期,请重新获取')
+          clearInterval(timer)
+        }
+        if (statusRes.code === 803) {
+          // 这一步会返回cookie
+          clearInterval(timer)
+          // alert('授权登录成功')
+          await this.getLoginStatus(statusRes.cookie)
+          localStorage.setItem('cookie', statusRes.cookie)
+          $("#clea").show()
+        }
+        document.querySelector('#status').innerText = "状态："+statusRes.message
+      }, 3000)
+    }
+
+    $(function(){
+      var clipboard = new Clipboard('#copy_btn');
+      clipboard.on('success', function(e) {
+        alert("复制成功",1500);
+        e.clearSelection();
+        console.log(e.clearSelection);
+      });
+      if(!localStorage.getItem('cookie')){
+        $("#clea").hide()
+        return;
+      }
+      getLoginStatus(localStorage.getItem('cookie'))
+   　});
+  </script>
+  <style>
+    .info {
+      word-wrap: break-word;
+    }
+  </style>
+</body>
+
+</html>
