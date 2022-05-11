@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+</head>
+
+<body style="text-align: center;width: 80%">
+<div>ksjs查询</div><br>
+输入QQ：<input type="text" id="qq">
+<button onclick="submit()">查询</button><br><br>
+<div id="info" class="info"></div><br>
+  <script src="https://mp.5173kk.com/js/axios.min.js"></script>
+  <script src="https://mp.5173kk.com/js/jquery.min.js"></script>
+  <script>
+    let host = "https://mp.5173kk.com";
+    async function submit(){
+        let qq = $('#qq').val();
+        if (qq === '') {
+            return;
+        }
+        const res = await axios({
+            method: 'post',
+            url: host+`/v1/qqTask/ksGet?qq=${qq}&timerstamp=${Date.now()}`,
+        })
+        if(res.data.code==0){
+            document.querySelector('#info').innerText = res.data.msg
+            let msg = res.data.msg;
+            msg = msg.replace(/\n/g,"<br>");
+            localStorage.setItem('ksjs_info', encodeURIComponent(msg))
+            localStorage.setItem('ksjs_qq', qq)
+        }
+    }
+    async function check(){
+        $("#qq").val(localStorage.getItem('ksjs_qq'));
+        let info = localStorage.getItem('ksjs_info');
+        if(info){
+            info = decodeURIComponent(info);
+            info = info+"<br>上次查询结果"
+            $("#info").html(info);
+        }
+    }
+    $(function(){
+        check()
+   　});
+  </script>
+  <style>
+    .info {
+      word-wrap: break-word;
+    }
+  </style>
+</body>
+
+</html>
