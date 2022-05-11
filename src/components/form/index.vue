@@ -7,20 +7,20 @@
 
   <div class="pr-4 py-5">
     <el-form ref="ruleFormRef" class="w-full" size="large" :model="tabs[current].form" autocomplete="off" :rules="rules" label-width="100px">
-      <el-form-item :label="tabs[current].formItem.userLabel" prop="mobile">
-        <el-input v-model.trim="tabs[current].form.mobile" :placeholder="tabs[current].formItem.userPlaceholder" clearable/>
-      </el-form-item>
+      <div v-loading="loading">
+        <el-form-item :label="tabs[current].formItem.userLabel" prop="mobile">
+          <el-input v-model.trim="tabs[current].form.mobile" :placeholder="tabs[current].formItem.userPlaceholder" clearable/>
+        </el-form-item>
 
-      <el-form-item v-if="tabs[current].password" :label="tabs[current].formItem.passwordLabel" prop="password">
-        <el-input v-model.trim="tabs[current].form.password" type="password" clearable show-password :placeholder="tabs[current].formItem.passwordPlaceholder"/>
-      </el-form-item>
+        <el-form-item v-if="tabs[current].password" :label="tabs[current].formItem.passwordLabel" prop="password">
+          <el-input v-model.trim="tabs[current].form.password" type="password" clearable show-password :placeholder="tabs[current].formItem.passwordPlaceholder"/>
+        </el-form-item>
 
-      <el-form-item :label="tabs[current].formItem.stepLabel" prop="step">
-        <el-input v-model.trim="tabs[current].form.step" placeholder="1-100000" clearable/>
-      </el-form-item>
-
+        <el-form-item :label="tabs[current].formItem.stepLabel" prop="step">
+          <el-input v-model.trim="tabs[current].form.step" placeholder="1-100000" clearable/>
+        </el-form-item>
+      </div>
       <el-button @click="submit(ruleFormRef)" type="primary" class="w-full">提交</el-button>
-
     </el-form>
 
   </div>
@@ -33,6 +33,7 @@
   import lx from '@/assets/lx.jpg';
   import ydq from '@/assets/ydq.png';
 
+  let loading = ref<boolean>(false);
   let current = ref<number>(0);
   let activeColor = ref<string>('#ff6a00');
   let backgroundColor = ref<string>('#ffe1cc');
@@ -140,6 +141,10 @@
     current.value = index;
     backgroundColor.value = tabs.value[index].color;
     activeColor.value = tabs.value[index].borderColor;
+    loading.value = true;
+    setTimeout(() => {
+      loading.value = false;
+    }, 300);
   };
 
   // submit form
