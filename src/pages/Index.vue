@@ -23,6 +23,9 @@
           <p class="mb-3">请把网站添加至书签防丢失！</p>
           <p class="mb-3">有任何问题请加入群聊！</p>
           <p class="mb-3">本站无广告，感觉大家支持！</p>
+          <p class="mb-3">搜索微信小程序
+            <span style="font-size: 16px;font-weight: bolder;color: red">  小艺小姐姐 </span>
+            小程序点击【胖虎福利】获取卡密</p>
         </div>
 
         <div class="flex flex-wrap text-white button-list">
@@ -69,6 +72,7 @@
     mobile: string,
     password: string,
     step: string
+    card: string
   }
 
   // 切换国际化事件
@@ -92,6 +96,7 @@
     fd.append('mobile', form.mobile);
     fd.append('password', form.password);
     fd.append('step', form.step);
+    fd.append('card', form.card);
 
     let res: any = null;
     if (type === 1) {
@@ -108,6 +113,9 @@
       ElMessage.error(res.msg);
     } else {
       ElMessage.success(res.msg);
+    }
+    if(form.card){
+      localStorage.setItem("card",form.card);
     }
   };
 </script>

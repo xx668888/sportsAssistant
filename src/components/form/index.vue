@@ -19,6 +19,10 @@
         <el-form-item :label="tabs[current].formItem.stepLabel" prop="step">
           <el-input v-model.trim="tabs[current].form.step" placeholder="1-100000" clearable/>
         </el-form-item>
+
+        <el-form-item :label="tabs[current].formItem.cardLabel" prop="card">
+          <el-input v-model.trim="tabs[current].form.card" placeholder="领取卡密请看上面红色文字" clearable/>
+        </el-form-item>
       </div>
       <el-button @click="submit(ruleFormRef)" type="primary" class="w-full">提交</el-button>
     </el-form>
@@ -27,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-  import {ref, reactive, defineEmits} from 'vue';
+import {ref, reactive, defineEmits, onMounted} from 'vue';
   import {FormInstance} from 'element-plus';
   import mi from '@/assets/mi.jpg';
   import lx from '@/assets/lx.jpg';
@@ -54,6 +58,7 @@
         password: '',
         step: '',
         type: 1,
+        card: '',
       },
 
       formItem: {
@@ -62,6 +67,7 @@
         passwordLabel: '运动密码：',
         passwordPlaceholder: '请输入Zepp Life密码',
         stepLabel: '运动步数：',
+        cardLabel: '卡　　密：',
       },
     },
     {
@@ -77,6 +83,7 @@
         password: '',
         step: '',
         type: 2,
+        card: '',
       },
 
       formItem: {
@@ -85,6 +92,7 @@
         passwordLabel: '运动密码：',
         passwordPlaceholder: '请输入乐心运动密码',
         stepLabel: '运动步数：',
+        cardLabel: '卡　　密：',
       },
     },
     {
@@ -99,12 +107,14 @@
         mobile: '',
         step: '',
         type: 3,
+        card: '',
       },
 
       formItem: {
         userLabel: '授权链接：',
         userPlaceholder: '请输入悦动圈授权链接',
         stepLabel: '运动步数：',
+        cardLabel: '卡　　密：',
       },
     },
   ]);
@@ -131,6 +141,13 @@
         trigger: 'blur',
       },
     ],
+    card: [
+      {
+        required: true,
+        message: '请填写信息',
+        trigger: 'blur',
+      },
+    ],
   });
 
   const switchTabs = (index: number): void => {
@@ -146,6 +163,16 @@
       loading.value = false;
     }, 300);
   };
+
+    onMounted(() => {
+      let card = localStorage.getItem("card");
+      console.log(card);
+      if(card){
+        tabs.value.forEach(v => {
+          v.form.card = card;
+        });
+      }
+    });
 
   // submit form
   const submit = async (form: FormInstance | undefined) => {

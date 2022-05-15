@@ -2,7 +2,7 @@ import { request } from '@/util/request/index';
 
 export const mi = (data: any) => {
     return request({
-        url: '/v1/sport/submit/mi',
+        url: '/v1/sport/submit/mi1',
         method: 'post',
         data
     })
@@ -10,7 +10,7 @@ export const mi = (data: any) => {
 
 export const xin = (data: any) => {
     return request({
-        url: '/v1/sport/submit/xin',
+        url: '/v1/sport/submit/xin1',
         method: 'post',
         data
     })
